@@ -1,17 +1,41 @@
-const MongoClient = require('mongodb').MongoClient
+const request = require('request');
 
-var _db = null;
-
-module.exports.getDb = function() {
-    return _db;
+var getCode = () => {
+    return new Promise((resolve, reject) => {
+        request({
+            url: 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=5',
+            json: true
+        }, (error,response,body) => {
+            if (body.success !== "True"){
+                resolve(body.deck_id);
+            }else{
+                reject('Can not generate deck of cards')
+            }
+        });
+    });
 }
 
-module.exports.init = function(callback) {
-    MongoClient.connect('mongodb://localhost:27017/test', function(err, client) {
-        if (err) {
-            return console.log('Unable to connect to the DB');
-        }
-        _db = client.db("test");
-        console.log('Sucessfully connected to MongoDB server');
+var getCards = (code) => {
+    return new Promise((resolve, reject) => {
+        request({
+            url: `https://deckofcardsapi.com/api/deck/${code}/draw/?count=5`,
+            json: true
+        }, (error,response,body) => {
+            if (body.sucess === "False"){
+                reject('Can get deck');
+            }else{
+                resolve({card1: body.cards[0].image,
+                	// card2: body.cards[1].image,
+                	// card3: body.cards[2].image,
+                	// card4: body.cards[3].image,
+                	// card5: body.cards[4].image
+                })
+            }
+        });
     });
+}
+
+module.exports = {
+    getCode,
+    getCards
 };
