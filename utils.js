@@ -25,10 +25,10 @@ var getCards = (code) => {
                 reject('Can get deck');
             }else{
                 resolve({card1: body.cards[0].image,
-                	// card2: body.cards[1].image,
-                	// card3: body.cards[2].image,
-                	// card4: body.cards[3].image,
-                	// card5: body.cards[4].image
+                	card2: body.cards[1].image,
+                	card3: body.cards[2].image,
+                	card4: body.cards[3].image,
+                	card5: body.cards[4].image
                 })
             }
         });

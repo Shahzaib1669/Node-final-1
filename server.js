@@ -20,9 +20,17 @@ app.get('/cards', (request, response) => {
         code = result
         return utils.getCards(result);
     }).then((result) => {
-        cards = (`${result.card1}`);
+        card1 = (`${result.card1}`);
+        card2 = (`${result.card2}`);
+        card3 = (`${result.card3}`);
+        card4 = (`${result.card4}`);
+        card5 = (`${result.card5}`);
         response.send('page.hbs', {
-        card: cards
+        card1: card1,
+        card2: card2,
+        card3: card3,
+        card4: card4,
+        card5: card5
     })
     }).catch((error) => {
         response.send('Error message: ' + error);
